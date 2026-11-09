@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10243a">
+<title>AI ScamSathi | Digital Safety Assistant</title>
+<style>
+:root {
+  --navy:#10243a; --blue:#176b87; --teal:#16a6a1;
+  --light:#f3f8fa; --ink:#183044; --muted:#607486;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--light);color:var(--ink)}
+header{background:var(--navy);color:white;padding:18px 6%;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font-size:21px;font-weight:800}
+.logo span{color:#4bd4c7}
+button,select,textarea{font:inherit}
+.lang{background:white;color:var(--navy);border:0;border-radius:9px;padding:9px}
+.hero{background:linear-gradient(135deg,#10243a,#176b87);color:white;padding:48px 7% 55px}
+.tag{color:#7de5dc;font-weight:bold;letter-spacing:1px;font-size:12px}
+h1{font-size:clamp(32px,7vw,48px);line-height:1.12;margin:15px 0}
+.hero p{max-width:620px;line-height:1.7;color:#e0edf3}
+main{max-width:900px;margin:-22px auto 40px;padding:0 16px}
+.panel{background:white;padding:24px;border-radius:18px;box-shadow:0 8px 28px #10243a12}
+.panel h2{margin-top:0}
+.hint{color:var(--muted);font-size:14px;line-height:1.6}
+textarea{width:100%;min-height:145px;padding:15px;border:1px solid #cbd9e0;border-radius:12px;resize:vertical;outline-color:var(--teal)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+button{cursor:pointer;border:0;border-radius:10px;padding:12px 16px}
+.primary{background:var(--teal);color:#062c36;font-weight:bold}
+.sample{background:#eaf3f6;color:#24465a}
+#notice{margin-top:14px;padding:13px;background:#edf7f8;border-radius:10px;color:#31566a;line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:20px}
+.tile{background:white;padding:19px;border-radius:14px;border:1px solid #e0eaee}
+.tile h3{margin:5px 0 8px}
+.tile p{color:var(--muted);font-size:14px;line-height:1.6}
+section{margin-top:28px}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">🛡️ Scam<span>Sathi</span></div>
+  <select class="lang" id="language" aria-label="Choose language">
+    <option value="en">English</option>
+    <option value="or">ଓଡ଼ିଆ</option>
+  </select>
+</header>
+
+<div class="hero">
+  <div class="tag">YOUR DIGITAL SAFETY COMPANION</div>
+  <h1 id="headline">Understand the scam.<br>Recognise the trick.<br>Stay safe.</h1>
+  <p id="intro">Learn to recognise suspicious messages, understand how scammers manipulate people, and discover safer actions.</p>
+</div>
+
+<main>
+  <div class="panel">
+    <h2 id="scanTitle">🔍 Check a suspicious message</h2>
+    <p class="hint" id="scanHint">Paste an SMS, WhatsApp message, job offer or bank alert below. Never enter a real OTP, password or private information.</p>
+    <textarea id="message" placeholder="Paste your suspicious message here..."></textarea>
+    <div class="actions">
+      <button class="primary" id="analyse">Analyse message</button>
+      <button class="sample" onclick="loadSample(0)">Bank KYC sample</button>
+      <button class="sample" onclick="loadSample(1)">Job offer sample</button>
+      <button class="sample" onclick="loadSample(2)">Prize sample</button>
+    </div>
+    <div id="notice" role="status">Your message analysis workspace is ready. The analysis engine will be added in the next development step.</div>
+  </div>
+
+  <section>
+    <h2 id="howTitle">How ScamSathi helps</h2>
+    <div class="grid">
+      <div class="tile"><h3>🔎 Recognise</h3><p id="recognise">Learn to notice suspicious language, links and requests.</p></div>
+      <div class="tile"><h3>🧠 Understand</h3><p id="understand">Discover tricks such as urgency, fear, greed and impersonation.</p></div>
+      <div class="tile"><h3>🛡️ Respond</h3><p id="respond">Learn safe steps before clicking, paying or sharing information.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="tipsTitle">Essential safety tips</h2>
+    <div class="tile">
+      <p>🔐 Never share your OTP, PIN or password.</p>
+      <p>🔗 Avoid clicking unexpected links.</p>
+      <p>🏦 Verify bank messages through official channels.</p>
+      <p>📞 If you lose money to cyber fraud in India, call 1930 promptly and report at cybercrime.gov.in.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="challengeTitle">🎯 Scam Challenge</h2>
+    <div class="tile">
+      <p id="challengeText">Would you like to test your ability to recognise suspicious messages?</p>
+      <button class="primary" onclick="alert('Scam Challenge coming in the next development step!')">Start challenge</button>
+    </div>
+  </section>
+</main>
+
+<footer>AI ScamSathi · Digital awareness for everyone<br>Educational assistance only. Always verify through official sources.</footer>
+
+<script>
+const samples = [
+  "URGENT! Your bank account will be blocked today. Complete KYC immediately using this link: example.invalid/kyc",
+  "Congratulations! You are selected for a work-from-home job. Pay a registration fee now to receive your guaranteed salary.",
+  "You have won a cash prize! Click this link and share your OTP to claim your reward."
+];
+
+function loadSample(index) {
+  document.getElementById("message").value = samples[index];
+  document.getElementById("notice").textContent = "Sample loaded. The analysis engine will be connected in the next step.";
+}
+
+document.getElementById("analyse").addEventListener("click", () => {
+  const value = document.getElementById("message").value.trim();
+  const notice = document.getElementById("notice");
+  if (!value) {
+    notice.textContent = "Please paste a message first.";
+    return;
+  }
+  notice.textContent = "Message received. The scam analysis engine is not connected yet. We will add the real analysis functionality in the next step.";
+});
+
+const translations = {
+  en: {
+    headline:"Understand the scam.<br>Recognise the trick.<br>Stay safe.",
+    intro:"Learn to recognise suspicious messages, understand how scammers manipulate people, and discover safer actions.",
+    scanTitle:"🔍 Check a suspicious message",
+    scanHint:"Paste an SMS, WhatsApp message, job offer or bank alert below. Never enter a real OTP, password or private information.",
+    howTitle:"How ScamSathi helps",
+    recognise:"Learn to notice suspicious language, links and requests.",
+    understand:"Discover tricks such as urgency, fear, greed and impersonation.",
+    respond:"Learn safe steps before clicking, paying or sharing information.",
+    tipsTitle:"Essential safety tips",
+    challengeTitle:"🎯 Scam Challenge",
+    challengeText:"Would you like to test your ability to recognise suspicious messages?"
+  },
+  or: {
+    headline:"ଠକେଇକୁ ବୁଝନ୍ତୁ।<br>ଚାଲାକିକୁ ଚିହ୍ନନ୍ତୁ।<br>ସୁରକ୍ଷିତ ରୁହନ୍ତୁ।",
+    intro:"ସନ୍ଦେହଜନକ ବାର୍ତ୍ତା ଚିହ୍ନନ୍ତୁ, ଠକମାନଙ୍କ କୌଶଳ ବୁଝନ୍ତୁ ଏବଂ ସୁରକ୍ଷିତ ରହିବା ଶିଖନ୍ତୁ।",
+    scanTitle:"🔍 ସନ୍ଦେହଜନକ ବାର୍ତ୍ତା ଯାଞ୍ଚ କରନ୍ତୁ",
+    scanHint:"SMS, WhatsApp ବାର୍ତ୍ତା, ଚାକିରି ପ୍ରସ୍ତାବ କିମ୍ବା ବ୍ୟାଙ୍କ ବାର୍ତ୍ତା ଏଠାରେ ଲେଖନ୍ତୁ। ପ୍ରକୃତ OTP କିମ୍ବା ପାସୱାର୍ଡ ଦିଅନ୍ତୁ ନାହିଁ।",
+    howTitle:"ScamSathi କିପରି ସାହାଯ୍ୟ କରେ",
+    recognise:"ସନ୍ଦେହଜନକ ଶବ୍ଦ, ଲିଙ୍କ୍ ଏବଂ ଅନୁରୋଧ ଚିହ୍ନିବା ଶିଖନ୍ତୁ।",
+    understand:"ଭୟ, ତତ୍ପରତା, ଲୋଭ ଏବଂ ନକଲି ପରିଚୟ ଭଳି କୌଶଳ ବୁଝନ୍ତୁ।",
+    respond:"ଲିଙ୍କ୍ ଖୋଲିବା କିମ୍ବା ଟଙ୍କା ପଠାଇବା ପୂର୍ବରୁ ସୁରକ୍ଷିତ ପଦକ୍ଷେପ ଜାଣନ୍ତୁ।",
+    tipsTitle:"ଜରୁରୀ ସୁରକ୍ଷା ପରାମର୍ଶ",
+    challengeTitle:"🎯 ଠକେଇ ଚିହ୍ନିବା ପରୀକ୍ଷା",
+    challengeText:"ସନ୍ଦେହଜନକ ବାର୍ତ୍ତା ଚିହ୍ନିବାରେ ଆପଣଙ୍କ ଦକ୍ଷତା ପରୀକ୍ଷା କରିବେ କି?"
+  }
+};
+
+document.getElementById("language").addEventListener("change", event => {
+  const t = translations[event.target.value];
+  for (const [id, value] of Object.entries(t)) {
+    document.getElementById(id).innerHTML = value;
+  }
+});
+</script>
+</body>
+</html>
