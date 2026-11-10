@@ -184,6 +184,36 @@ document.getElementById("analyse").addEventListener("click", function () {
     if (pattern.test(text)) warnings.push(warning);
   });
 
+const explanations = {
+  "Urgency or pressure":
+    "TRICK: Urgency. The scammer creates panic so you act without thinking.",
+
+  "Account threat":
+    "TRICK: Fear. The scammer threatens to block or suspend your account.",
+
+  "KYC or identity request":
+    "TRICK: Impersonation. The sender may pretend to represent your bank.",
+
+  "Sensitive information request":
+    "TRICK: Information theft. Scammers may try to obtain your OTP, PIN or password.",
+
+  "Link or website included":
+    "TRICK: Phishing. A link may lead to a fake website designed to steal information.",
+
+  "Prize or reward claim":
+    "TRICK: Greed. The scammer uses attractive prizes or rewards to influence you.",
+
+  "Unverified job or earning offer":
+    "TRICK: False opportunity. The scammer may use unrealistic earning promises.",
+
+  "Payment request":
+    "TRICK: Financial pressure. The scammer may try to make you send money."
+};
+
+const detectedReasons = warnings
+  .map(item => explanations[item])
+  .filter(Boolean);
+  
   let level;
   let explanation;
 
@@ -198,13 +228,20 @@ document.getElementById("analyse").addEventListener("click", function () {
     explanation = "No listed warning patterns were detected. This does NOT prove the message is genuine.";
   }
 
-  notice.textContent =
-    level + "\n\n" +
-    explanation + "\n\n" +
-    (warnings.length
-      ? "Warning signs:\n• " + warnings.join("\n• ")
-      : "No matching warning patterns found.") +
-    "\n\nSAFETY ADVICE: Never share OTPs, PINs or passwords. Verify through the official bank or service.";
+  
+notice.textContent =
+  level + "\n\n" +
+  explanation + "\n\n" +
+  (warnings.length
+    ? "WARNING SIGNS:\n" + warnings.join("\n") + "\n\n" +
+      "WHY THIS IS SUSPICIOUS:\n" + detectedReasons.join("\n\n")
+    : "No matching warning patterns found.\n\n" +
+      "This does not guarantee that the message is safe."
+  ) +
+  "\n\nSAFETY ADVICE:\n" +
+  "Never share OTPs, PINs or passwords. " +
+  "Verify messages through official channels.";
+  
 });
   
 </script>
