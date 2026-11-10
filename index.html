@@ -172,8 +172,8 @@ document.getElementById("analyse").addEventListener("click", function () {
     [/otp|one.time password|pin|password/, "Sensitive information request"],
     [/click here|https?:\/\/|www\./, "Link or website included"],
     [/won|winner|prize|lottery|reward/, "Prize or reward claim"],
-    [/job offer|earn money|work from home/, "Unverified job or earning offer"],
-    [/pay now|send money|processing fee/, "Payment request"]
+    [/job offer|earn money|work[\s-]?from[\s-]?home/i, "Unverified job or earning offer"],
+    [/pay now|send money|processing fee|registration fee|joining fee|security deposit/i, "Payment request"]
   ];
 
   checks.forEach(([pattern, warning]) => {
