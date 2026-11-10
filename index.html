@@ -111,15 +111,6 @@ function loadSample(index) {
   document.getElementById("notice").textContent = "Sample loaded. The analysis engine will be connected in the next step.";
 }
 
-document.getElementById("analyse").addEventListener("click", () => {
-  const value = document.getElementById("message").value.trim();
-  const notice = document.getElementById("notice");
-  if (!value) {
-    notice.textContent = "Please paste a message first.";
-    return;
-  }
-  notice.textContent = "Message received. The scam analysis engine is not connected yet. We will add the real analysis functionality in the next step.";
-});
 
 const translations = {
   en: {
