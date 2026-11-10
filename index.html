@@ -273,6 +273,9 @@ const riskBar =
   
 notice.textContent =
   level + "\n\n" +
+  (isOdia ? "Risk ସ୍କୋର: " : "RISK SCORE: ") +
+riskScore + "/100\n" +
+riskBar + "\n\n" +
   explanation + "\n\n" +
   (warnings.length
     ? (isOdia ? "ସତର୍କ ସଙ୍କେତ:\n" : "WARNING SIGNS:\n") +
