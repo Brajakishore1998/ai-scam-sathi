@@ -62,10 +62,9 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:13px}
     <textarea id="message" placeholder="Paste your suspicious message here..."></textarea>
     <div class="actions">
       <button class="primary" id="analyse">Analyse message</button>
-      <button class="sample" onclick="loadSample(0)">Bank KYC sample</button>
-      <button class="sample" onclick="loadSample(1)">Job offer sample</button>
-      <button class="sample" onclick="loadSample(2)">Prize sample</button>
-    </div>
+      <button class="sample" id="bankSample" onclick="loadSample(0)">Bank KYC sample</button>
+      <button class="sample" id="jobSample" onclick="loadSample(1)">Job offer sample</button>
+      <button class="sample" id="prizeSample" onclick="loadSample(2)">Prize sample</button>
     <div id="notice" role="status">Your message analysis workspace is ready. The analysis engine will be added in the next development step.</div>
   </div>
 
