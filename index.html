@@ -156,6 +156,57 @@ document.getElementById("language").addEventListener("change", event => {
     document.getElementById(id).innerHTML = value;
   }
 });
+  
+document.getElementById("analyse").addEventListener("click", function () {
+  const message = document.getElementById("message").value.trim();
+  const notice = document.getElementById("notice");
+
+  if (!message) {
+    notice.textContent = "Please paste a message first.";
+    return;
+  }
+
+  const text = message.toLowerCase();
+  const warnings = [];
+
+  const checks = [
+    [/urgent|immediately|today|within \d+ hours|last warning/, "Urgency or pressure"],
+    [/blocked|suspend|deactivate|account closed/, "Account threat"],
+    [/kyc|verify your account|update your details/, "KYC or identity request"],
+    [/otp|one.time password|pin|password/, "Sensitive information request"],
+    [/click here|https?:\/\/|www\./, "Link or website included"],
+    [/won|winner|prize|lottery|reward/, "Prize or reward claim"],
+    [/job offer|earn money|work from home/, "Unverified job or earning offer"],
+    [/pay now|send money|processing fee/, "Payment request"]
+  ];
+
+  checks.forEach(([pattern, warning]) => {
+    if (pattern.test(text)) warnings.push(warning);
+  });
+
+  let level;
+  let explanation;
+
+  if (warnings.length >= 3) {
+    level = "HIGH RISK – Suspicious message";
+    explanation = "Several warning signs were detected.";
+  } else if (warnings.length >= 1) {
+    level = "CAUTION – Needs verification";
+    explanation = "Some suspicious signs were detected.";
+  } else {
+    level = "NO CLEAR WARNING SIGNS";
+    explanation = "No listed warning patterns were detected. This does NOT prove the message is genuine.";
+  }
+
+  notice.textContent =
+    level + "\n\n" +
+    explanation + "\n\n" +
+    (warnings.length
+      ? "Warning signs:\n• " + warnings.join("\n• ")
+      : "No matching warning patterns found.") +
+    "\n\nSAFETY ADVICE: Never share OTPs, PINs or passwords. Verify through the official bank or service.";
+});
+  
 </script>
 </body>
 </html>
