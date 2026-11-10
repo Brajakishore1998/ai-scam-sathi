@@ -265,8 +265,8 @@ const shownReasons = warnings.map(item =>
   isOdia ? (reasonOdia[item] || "") : explanations[item]
 ).filter(Boolean);
 
-const riskScore = Math.min(100, warnings.length * 20);
-
+const credentialRequest = /\b(share|send|provide|enter|submit|tell)\b.{0,35}\b(otp|one[- ]time password|pin|password)\b/i.test(text);
+  const riskScore = Math.min(100, warnings.length * 20 + (credentialRequest ? 40 : 0));
 const riskBar =
   "🟥".repeat(Math.ceil(riskScore / 20)) +
   "⬜".repeat(5 - Math.ceil(riskScore / 20));
