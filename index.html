@@ -210,34 +210,77 @@ const detectedReasons = warnings
   .map(item => explanations[item])
   .filter(Boolean);
   
-  let level;
-  let explanation;
-
-  if (warnings.length >= 3) {
-    level = "HIGH RISK – Suspicious message";
-    explanation = "Several warning signs were detected.";
-  } else if (warnings.length >= 1) {
-    level = "CAUTION – Needs verification";
-    explanation = "Some suspicious signs were detected.";
-  } else {
-    level = "NO CLEAR WARNING SIGNS";
-    explanation = "No listed warning patterns were detected. This does NOT prove the message is genuine.";
-  }
-
   
+const isOdia = document.getElementById("language").value === "or";
+
+let level;
+let explanation;
+
+if (warnings.length >= 3) {
+  level = isOdia ? "ଉଚ୍ଚ ବିପଦ – ସନ୍ଦେହଜନକ ବାର୍ତ୍ତା" : "HIGH RISK – Suspicious message";
+  explanation = isOdia
+    ? "ଏହି ବାର୍ତ୍ତାରେ ଅନେକ ସନ୍ଦେହଜନକ ସଙ୍କେତ ମିଳିଛି।"
+    : "Several warning signs were detected.";
+} else if (warnings.length >= 1) {
+  level = isOdia ? "ସତର୍କତା – ଯାଞ୍ଚ ଆବଶ୍ୟକ" : "CAUTION – Needs verification";
+  explanation = isOdia
+    ? "କିଛି ସନ୍ଦେହଜନକ ସଙ୍କେତ ମିଳିଛି। ସାବଧାନ ରୁହନ୍ତୁ।"
+    : "Some suspicious signs were detected.";
+} else {
+  level = isOdia ? "ସ୍ପଷ୍ଟ ସତର୍କ ସଙ୍କେତ ମିଳିଲା ନାହିଁ" : "NO CLEAR WARNING SIGNS";
+  explanation = isOdia
+    ? "ଚିହ୍ନଟ ହୋଇଥିବା ସତର୍କ ସଙ୍କେତ ମିଳିଲା ନାହିଁ। ତଥାପି ସାବଧାନ ରୁହନ୍ତୁ।"
+    : "No listed warning patterns were found.";
+}
+
+const warningOdia = {
+  "Urgency or pressure": "ଜରୁରୀ କାର୍ଯ୍ୟ କରିବାକୁ ଚାପ",
+  "Account threat": "ଆକାଉଣ୍ଟ ବନ୍ଦ କରିବାର ଧମକ",
+  "Fear": "ଭୟ ସୃଷ୍ଟି କରିବା",
+  "KYC or identity request": "KYC କିମ୍ବା ପରିଚୟ ପତ୍ର ମାଗିବା",
+  "Sensitive information request": "ଗୋପନୀୟ ତଥ୍ୟ ମାଗିବା",
+  "Link or website included": "ସନ୍ଦେହଜନକ ଲିଙ୍କ୍ ଦିଆଯାଇଛି",
+  "Prize or reward claim": "ପୁରସ୍କାର ଜିତିବାର ଲୋଭ",
+  "Unverified job or earning offer": "ଅଯାଞ୍ଚିତ ଚାକିରି କିମ୍ବା ରୋଜଗାର ପ୍ରସ୍ତାବ",
+  "Payment request": "ଟଙ୍କା ଦେବାକୁ ଅନୁରୋଧ"
+};
+
+const reasonOdia = {
+  "Urgency or pressure": "ଠକ ଆପଣଙ୍କୁ ତରବରିଆ ଭାବେ କାମ କରାଇବାକୁ ଚାପ ପକାଏ।",
+  "Account threat": "ଆପଣଙ୍କ ଆକାଉଣ୍ଟ ବନ୍ଦ କରିବାର ଧମକ ଦିଆଯାଏ।",
+  "Fear": "ଭୟ ଦେଖାଇ ଆପଣଙ୍କୁ ଭୁଲ ନିଷ୍ପତ୍ତି ନେବାକୁ ବାଧ୍ୟ କରାଯାଏ।",
+  "KYC or identity request": "ବ୍ୟାଙ୍କ କିମ୍ବା ଅନ୍ୟ ସଂସ୍ଥାର ନାମରେ ତଥ୍ୟ ମଗାଯାଇପାରେ।",
+  "Sensitive information request": "OTP, PIN କିମ୍ବା ପାସୱାର୍ଡ ଭଳି ଗୋପନୀୟ ତଥ୍ୟ ଚୋରି କରିବା ଉଦ୍ଦେଶ୍ୟ ହୋଇପାରେ।",
+  "Link or website included": "ଲିଙ୍କ୍‌ଟି ନକଲି ୱେବସାଇଟ୍‌କୁ ନେଇଯାଇପାରେ।",
+  "Prize or reward claim": "ପୁରସ୍କାରର ଲୋଭ ଦେଖାଇ ଠକେଇ କରାଯାଇପାରେ।",
+  "Unverified job or earning offer": "ନକଲି ଚାକିରି କିମ୍ବା ରୋଜଗାରର ପ୍ରଲୋଭନ ଦିଆଯାଇପାରେ।",
+  "Payment request": "ଟଙ୍କା ଦେବାକୁ ଚାପ ପକାଇ ଠକେଇ କରାଯାଇପାରେ।"
+};
+
+const shownWarnings = warnings.map(item =>
+  isOdia ? (warningOdia[item] || item) : item
+);
+
+const shownReasons = warnings.map(item =>
+  isOdia ? (reasonOdia[item] || "") : explanations[item]
+).filter(Boolean);
+
 notice.textContent =
   level + "\n\n" +
   explanation + "\n\n" +
   (warnings.length
-    ? "WARNING SIGNS:\n" + warnings.join("\n") + "\n\n" +
-      "WHY THIS IS SUSPICIOUS:\n" + detectedReasons.join("\n\n")
-    : "No matching warning patterns found.\n\n" +
-      "This does not guarantee that the message is safe."
-  ) +
-  "\n\nSAFETY ADVICE:\n" +
-  "Never share OTPs, PINs or passwords. " +
-  "Verify messages through official channels.";
-  
+    ? (isOdia ? "ସତର୍କ ସଙ୍କେତ:\n" : "WARNING SIGNS:\n") +
+      shownWarnings.join("\n") + "\n\n" +
+      (isOdia ? "ଏହା କାହିଁକି ସନ୍ଦେହଜନକ:\n" : "WHY THIS IS SUSPICIOUS:\n") +
+      shownReasons.join("\n")
+    : (isOdia
+        ? "ଏହାର ଅର୍ଥ ବାର୍ତ୍ତାଟି ସୁରକ୍ଷିତ ବୋଲି ନିଶ୍ଚିତ ନୁହେଁ।"
+        : "This does not guarantee that the message is safe.")) +
+  "\n\n" +
+  (isOdia
+    ? "ସୁରକ୍ଷା ପରାମର୍ଶ:\nOTP, PIN କିମ୍ବା ପାସୱାର୍ଡ କାହାକୁ ଦିଅନ୍ତୁ ନାହିଁ। ସରକାରୀ କିମ୍ବା ଅଧିକୃତ ମାଧ୍ୟମରେ ଯାଞ୍ଚ କରନ୍ତୁ।"
+    : "SAFETY ADVICE:\nNever share OTPs, PINs or passwords. Verify through official channels.");
+
 });
   
 </script>
