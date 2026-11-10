@@ -265,6 +265,12 @@ const shownReasons = warnings.map(item =>
   isOdia ? (reasonOdia[item] || "") : explanations[item]
 ).filter(Boolean);
 
+const riskScore = Math.min(100, warnings.length * 20);
+
+const riskBar =
+  "🟥".repeat(Math.ceil(riskScore / 20)) +
+  "⬜".repeat(5 - Math.ceil(riskScore / 20));
+  
 notice.textContent =
   level + "\n\n" +
   explanation + "\n\n" +
