@@ -298,6 +298,112 @@ riskBar + "\n\n" +
     : "SAFETY ADVICE:\nNever share OTPs, PINs or passwords. Verify through official channels.");
 
 });
+
+  
+const quizQuestions = [
+  {
+    en: "You receive a message saying your bank account will be blocked today. What should you do?",
+    or: "ଆପଣଙ୍କ ବ୍ୟାଙ୍କ ଆକାଉଣ୍ଟ ଆଜି ବନ୍ଦ ହୋଇଯିବ ବୋଲି ଏକ ମେସେଜ୍ ଆସିଛି। ଆପଣ କ'ଣ କରିବେ?",
+    options: ["Click the link", "Share your OTP", "Verify through the official bank channel"],
+    optionsOr: ["ଲିଙ୍କ୍ ଖୋଲିବେ", "OTP ଦେବେ", "ବ୍ୟାଙ୍କର ଅଫିସିଆଲ୍ ମାଧ୍ୟମରେ ଯାଞ୍ଚ କରିବେ"],
+    answer: 2,
+    explain: "Never trust urgent account-blocking messages without verification.",
+    explainOr: "ଯାଞ୍ଚ ନକରି ଆକାଉଣ୍ଟ ବନ୍ଦ ହେବା ଭଳି ଜରୁରୀ ମେସେଜ୍‌କୁ ବିଶ୍ୱାସ କରନ୍ତୁ ନାହିଁ।"
+  },
+  {
+    en: "A stranger offers you a prize but asks for your OTP. Is this safe?",
+    or: "ଜଣେ ଅଜଣା ବ୍ୟକ୍ତି ପୁରସ୍କାର ଦେବେ ବୋଲି କହି ଆପଣଙ୍କ OTP ମାଗୁଛନ୍ତି। ଏହା ସୁରକ୍ଷିତ କି?",
+    options: ["Yes", "No, never share OTP"],
+    optionsOr: ["ହଁ", "ନା, କେବେବି OTP ଦିଅନ୍ତୁ ନାହିଁ"],
+    answer: 1,
+    explain: "Sharing an OTP can allow someone to access your account.",
+    explainOr: "OTP ଦେଲେ ଅନ୍ୟ ବ୍ୟକ୍ତି ଆପଣଙ୍କ ଆକାଉଣ୍ଟ ବ୍ୟବହାର କରିପାରନ୍ତି।"
+  },
+  {
+    en: "A work-from-home job asks you to pay a registration fee first. What is the warning sign?",
+    or: "ଘରେ ବସି କାମ କରିବା ଚାକିରି ପାଇଁ ପ୍ରଥମେ ରେଜିଷ୍ଟ୍ରେସନ୍ ଫି ମାଗୁଛନ୍ତି। ଏହା କେଉଁ ସତର୍କ ସଙ୍କେତ?",
+    options: ["Possible job scam", "Guaranteed genuine job", "Government approval"],
+    optionsOr: ["ସମ୍ଭାବ୍ୟ ଚାକିରି ଠକେଇ", "ନିଶ୍ଚିତ ଅସଲି ଚାକିରି", "ସରକାରୀ ଅନୁମୋଦନ"],
+    answer: 0,
+    explain: "Unverified jobs demanding advance payments are suspicious.",
+    explainOr: "ଯାଞ୍ଚ ହୋଇନଥିବା ଚାକିରି ପାଇଁ ଆଗୁଆ ଟଙ୍କା ମାଗିବା ସନ୍ଦେହଜନକ।"
+  }
+];
+
+let quizIndex = 0;
+let quizScore = 0;
+
+function startChallenge() {
+  quizIndex = 0;
+  quizScore = 0;
+  showQuizQuestion();
+}
+
+function showQuizQuestion() {
+  const area = document.getElementById("challengeArea");
+  const odia = document.getElementById("language").value === "or";
+  const q = quizQuestions[quizIndex];
+
+  area.innerHTML = `
+    <h3>${odia ? "ପ୍ରଶ୍ନ" : "Question"} ${quizIndex + 1} / ${quizQuestions.length}</h3>
+    <p>${odia ? q.or : q.en}</p>
+    ${q.options.map((option, i) => `
+      <button class="sample" onclick="chooseQuizAnswer(${i})">
+        ${odia ? q.optionsOr[i] : option}
+      </button>
+    `).join("<br><br>")}
+    <p id="quizFeedback"></p>
+  `;
+}
+
+function chooseQuizAnswer(selected) {
+  const odia = document.getElementById("language").value === "or";
+  const q = quizQuestions[quizIndex];
+  const feedback = document.getElementById("quizFeedback");
+  const area = document.getElementById("challengeArea");
+
+  area.querySelectorAll("button").forEach(button => button.disabled = true);
+
+  if (selected === q.answer) {
+    quizScore++;
+    feedback.textContent = odia ? "ଠିକ୍ ଉତ୍ତର! 🎉" : "Correct answer! 🎉";
+  } else {
+    feedback.textContent = odia ? "ଭୁଲ୍ ଉତ୍ତର।" : "Incorrect answer.";
+  }
+
+  feedback.textContent += "\n" + (odia ? q.explainOr : q.explain);
+
+  const next = document.createElement("button");
+  next.className = "primary";
+  next.textContent = quizIndex === quizQuestions.length - 1
+    ? (odia ? "ଫଳାଫଳ ଦେଖନ୍ତୁ" : "See Result")
+    : (odia ? "ପରବର୍ତ୍ତୀ ପ୍ରଶ୍ନ" : "Next Question");
+
+  next.onclick = () => {
+    quizIndex++;
+    if (quizIndex < quizQuestions.length) {
+      showQuizQuestion();
+    } else {
+      showQuizResult();
+    }
+  };
+
+  area.appendChild(next);
+}
+
+function showQuizResult() {
+  const odia = document.getElementById("language").value === "or";
+  const area = document.getElementById("challengeArea");
+
+  area.innerHTML = `
+    <h3>${odia ? "ଆପଣଙ୍କ ଫଳାଫଳ" : "Your Result"}</h3>
+    <h2>${quizScore} / ${quizQuestions.length}</h2>
+    <p>${odia ? "ଠିକ୍ ଉତ୍ତର ସଂଖ୍ୟା" : "Correct answers"}</p>
+    <button class="primary" onclick="startChallenge()">
+      ${odia ? "ପୁଣି ଖେଳନ୍ତୁ" : "Play Again"}
+    </button>
+  `;
+}
   
 </script>
 </body>
